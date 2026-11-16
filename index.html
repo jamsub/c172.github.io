@@ -3,351 +3,40 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>C172S G1000 Checklist</title>
+<title>Sim Checklists</title>
 <style>
-  :root {
-    --bg: #0f1216;
-    --panel: #171b21;
-    --line: #2a313b;
-    --text: #e8ebef;
-    --muted: #8d97a5;
-    --accent: #4fb3ff;
-    --done: #3ecf8e;
-    --done-bg: #12261d;
-    --warn: #ffb347;
-    --chip: #232a33;
-  }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html, body { margin: 0; background: var(--bg); color: var(--text);
+  html, body { margin: 0; background: #0f1216; color: #e8ebef;
     font: 16px/1.4 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-  header { position: sticky; top: 0; z-index: 5; background: var(--bg);
-    border-bottom: 1px solid var(--line); padding: 12px 16px 0; }
-  .titlebar { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  h1 { font-size: 20px; margin: 0; letter-spacing: .02em; }
-  .overall { color: var(--muted); font-size: 14px; }
-  .tabs { display: flex; gap: 6px; overflow-x: auto; padding: 12px 0; scrollbar-width: none; }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab { flex: 0 0 auto; border: 1px solid var(--line); background: var(--panel); color: var(--text);
-    border-radius: 999px; padding: 8px 14px; font-size: 15px; cursor: pointer; white-space: nowrap; }
-  .tab .n { color: var(--muted); font-size: 12px; margin-left: 6px; }
-  .tab.active { border-color: var(--accent); background: #10263a; }
-  .tab.complete { border-color: var(--done); }
-  .tab.complete .n { color: var(--done); }
-  main { max-width: 860px; margin: 0 auto; padding: 16px; }
-  .phasehead { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
-  h2 { font-size: 22px; margin: 0; }
-  .phasenote { color: var(--muted); font-size: 14px; margin: -4px 0 12px; }
-  .bar { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; margin-bottom: 14px; }
-  .bar > div { height: 100%; background: var(--done); width: 0; transition: width .2s; }
-  ul.items { list-style: none; margin: 0; padding: 0; }
-  li.item { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start;
-    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
-    padding: 14px; margin-bottom: 8px; cursor: pointer; user-select: none; min-height: 56px; }
-  li.item .box { width: 28px; height: 28px; border: 2px solid var(--muted); border-radius: 6px;
-    display: flex; align-items: center; justify-content: center; margin-top: 1px; }
-  li.item .row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
-  li.item .what { font-weight: 600; font-size: 17px; }
-  li.item .dots { flex: 1 1 20px; border-bottom: 1px dotted var(--line); min-width: 20px; transform: translateY(-4px); }
-  li.item .act { font-weight: 700; color: var(--accent); font-size: 17px; text-align: right; }
-  li.item .hw { display: inline-block; margin-top: 6px; background: var(--chip); color: var(--muted);
-    font-size: 12px; border-radius: 4px; padding: 2px 7px; }
-  li.item .hw.vatsim { color: var(--warn); }
-  li.item .sub { color: var(--muted); font-size: 14px; margin-top: 4px; }
-  li.item.checked { background: var(--done-bg); border-color: #1f4a36; }
-  li.item.checked .box { border-color: var(--done); background: var(--done); }
-  li.item.checked .box::after { content: ""; width: 7px; height: 13px; border: solid #0f1216;
-    border-width: 0 3px 3px 0; transform: rotate(45deg) translate(-1px, -1px); }
-  li.item.checked .what, li.item.checked .act { color: var(--muted); }
-  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
-  button.btn { border: 1px solid var(--line); background: var(--panel); color: var(--text);
-    border-radius: 8px; padding: 12px 16px; font-size: 15px; cursor: pointer; }
-  button.btn.primary { background: var(--accent); border-color: var(--accent); color: #06121d; font-weight: 700; }
-  button.btn.danger { border-color: #7a3030; color: #ff8a8a; }
-  button.btn.danger.armed { background: #7a3030; color: #fff; }
-  table.speeds { border-collapse: collapse; margin-top: 8px; font-size: 14px; }
-  table.speeds td, table.speeds th { border: 1px solid var(--line); padding: 4px 10px; text-align: center; }
-  table.speeds th { color: var(--muted); font-weight: 600; }
-  footer { max-width: 860px; margin: 24px auto 40px; padding: 0 16px; color: var(--muted); font-size: 13px; }
-  footer a { color: var(--accent); }
-  .legend { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+  main { max-width: 640px; margin: 0 auto; padding: 24px 16px 40px; }
+  h1 { font-size: 24px; margin: 0 0 4px; }
+  .sub { color: #8d97a5; font-size: 14px; margin: 0 0 20px; }
+  a.card { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: #171b21; border: 1px solid #2a313b; border-radius: 12px; padding: 18px;
+    margin-bottom: 10px; color: inherit; text-decoration: none; min-height: 72px; }
+  a.card:active { border-color: #4fb3ff; background: #10263a; }
+  .name { font-size: 19px; font-weight: 700; }
+  .desc { color: #8d97a5; font-size: 14px; margin-top: 2px; }
+  .arrow { color: #4fb3ff; font-size: 26px; }
+  footer { color: #8d97a5; font-size: 12px; margin-top: 24px; }
 </style>
 </head>
 <body>
-<header>
-  <div class="titlebar">
-    <h1>C172S G1000 Normal Checklist</h1>
-    <span class="overall" id="overall"></span>
-  </div>
-  <nav class="tabs" id="tabs"></nav>
-</header>
-
-<main id="main"></main>
-
-<footer>
-  <div><strong>For flight simulation only.</strong> Adapted from the University of Dubuque Cessna C-172S (Nav III) Normal Checklist, revised 16 Feb 2021, which is to be used with the POH. The phase grouping, the hardware tags and the simulator adaptations are my own, not part of that checklist.</div>
-  <div class="legend">
-    <span><span class="hw" style="display:inline-block;background:#232a33;padding:2px 7px;border-radius:4px">Alpha / Bravo</span> = your Honeycomb control</span>
-    <span><span class="hw vatsim" style="display:inline-block;background:#232a33;padding:2px 7px;border-radius:4px;color:#ffb347">VATSIM</span> = only when flying online</span>
-  </div>
-  <p>Left out for the sim: exterior walkaround, Hobbs/tach recording, control lock, chocks, pitot cover and passenger briefing. For hot or flooded starts, see POH Section 4.</p>
-  <p>Source: <a href="https://www.dbq.edu/media/Academics/Aviation/Forms/Cessna-172S---Normal-and-Emergency-Checklists.pdf">University of Dubuque C-172S Normal and Emergency Checklists</a></p>
-</footer>
-
+<main>
+  <h1>Sim Checklists</h1>
+  <p class="sub">MSFS 2024. For flight simulation only.</p>
+  <div id="list"></div>
+  <footer>Each checklist remembers its own ticks on this device. Use Reset all before each flight.</footer>
+</main>
 <script>
-const PHASES = [
-  { id: "before-start", name: "Before Start", items: [
-    ["Parking brake", "SET", "Bravo toggle 6 UP"],
-    ["Seats & belts", "ADJUST, FASTEN"],
-    ["Avionics Bus 1 & 2", "OFF", "Alpha AV BUS 1 & 2"],
-    ["Electrical equipment", "OFF", "Alpha lights, Bravo toggles 1-4 down"],
-    ["Circuit breakers", "IN"],
-    ["Fuel shutoff", "ON (full in)"],
-    ["Fuel selector", "BOTH"],
-    ["Standby battery", "TEST 10 sec, then ARM", "Bravo toggle 5 UP"],
-    ["Engine indicating system", "CHECK, no red X"],
-    ["Bus \"E\" volts", "24 V or more"],
-    ["Bus \"M\" volts", "1.5 V or less"],
-    ["Batt \"S\" amps", "CHECK discharge"],
-    ["Standby battery annunciator", "CHECK"]
-  ]},
-  { id: "start", name: "Engine Start", items: [
-    ["Master switch (ALT & BAT)", "ON", "Alpha ALT + BAT"],
-    ["Beacon", "ON", "Alpha BEACON"],
-    ["Nav lights", "AS REQUIRED", "Alpha NAV"],
-    ["Throttle", "OPEN 1/4 inch", "Bravo lever 1"],
-    ["Mixture", "IDLE CUTOFF", "Bravo lever 3"],
-    ["Prime", "AS REQUIRED", "Bravo toggle 1 (fuel pump)"],
-    ["Propeller area", "CLEAR"],
-    ["Magnetos", "START, release to BOTH", "Alpha key"],
-    ["Mixture", "RICH as engine starts", "Bravo lever 3"],
-    ["Oil pressure", "CHECK"],
-    ["Batt \"M\" and \"S\" amps", "CHECK positive"],
-    ["LOW VOLTS annunciator", "CHECK off"],
-    ["Avionics Bus 1 & 2", "ON", "Alpha AV BUS 1 & 2"],
-    ["Flaps", "RETRACT", "Bravo flap lever"]
-  ]},
-  { id: "before-taxi", name: "Before Taxi", items: [
-    ["MFD database", "ACKNOWLEDGE"],
-    ["Mixture", "ADJUST (1200 RPM / max RPM / 1000 RPM)", "Bravo lever 3"],
-    ["Flight plan", "LOAD & ACTIVATE", null, "SimBrief route via the MSFS EFB, or entered on the MFD FPL page"],
-    ["Nav source (VOR / WAAS)", "VERIFY"],
-    ["Fuel totalizer", "SET"],
-    ["ATIS", "COPY", null, "Write it on the Boox kneeboard"],
-    ["Radios", "SET"],
-    ["Altimeters (PFD & standby)", "SET"],
-    ["Altitude select", "SET", "Bravo selector ALT + knob"],
-    ["Transponder", "SET"],
-    ["Clearance / taxi", "REQUEST", "VATSIM"],
-    ["Taxi light", "ON", "Alpha TAXI"],
-    ["Parking brake", "RELEASE", "Bravo toggle 6 DOWN"]
-  ]},
-  { id: "taxi", name: "Taxi", items: [
-    ["Brakes", "CHECK"],
-    ["Nose steering", "CHECK"],
-    ["Flight instruments", "CHECK", null, "Turn coordinator and HSI move correctly in turns"]
-  ]},
-  { id: "runup", name: "Run-up", items: [
-    ["Parking brake", "SET", "Bravo toggle 6 UP"],
-    ["Taxi light", "OFF", "Alpha TAXI"],
-    ["Mixture", "RICH", "Bravo lever 3"],
-    ["Throttle", "1800 RPM", "Bravo lever 1"],
-    ["Magnetos", "CHECK", "Alpha key L / R / BOTH", "Max drop 150 RPM, max difference 50 RPM"],
-    ["Engine indicators", "CHECK"],
-    ["Vacuum", "CHECK"],
-    ["Voltmeters & ammeters", "CHECK"],
-    ["Annunciators", "CHECK clear"],
-    ["Throttle", "IDLE, then 1000 RPM", "Bravo lever 1"],
-    ["Mixture", "ADJUST", "Bravo lever 3"]
-  ]},
-  { id: "before-takeoff", name: "Before Takeoff", items: [
-    ["Doors & windows", "CLOSED & LOCKED"],
-    ["Seatbelts & harnesses", "SECURE"],
-    ["Magnetos", "BOTH", "Alpha key"],
-    ["Cabin power 12V", "OFF"],
-    ["Flight controls", "FREE & CORRECT", "Alpha yoke"],
-    ["Autopilot", "ENGAGE, check, DISCONNECT", "Bravo AP / Alpha red button"],
-    ["Flight director", "OFF"],
-    ["PFD flight instruments", "CHECK"],
-    ["CDI softkey", "SELECT nav source"],
-    ["Oil pressure & temperature", "CHECK"],
-    ["Standby flight instruments", "CHECK"],
-    ["Flaps", "SET 0-10 deg", "Bravo flap lever"],
-    ["Trim", "SET for takeoff", "Bravo trim wheel"],
-    ["Fuel selector", "BOTH"],
-    ["Takeoff briefing", "COMPLETE"],
-    ["Radios", "SET (tower)"],
-    ["Pitot heat", "AS REQUIRED", "Bravo toggle 2"],
-    ["Landing, taxi & strobe lights", "ON", "Alpha LAND, TAXI, STROBE"]
-  ]},
-  { id: "takeoff", name: "Takeoff", note: "Normal takeoff first; use the short-field items instead when needed.", items: [
-    ["Mixture", "RICH", "Bravo lever 3"],
-    ["Throttle", "FULL OPEN", "Bravo lever 1"],
-    ["Rotate", "55 KIAS"],
-    ["Climb", "Vy"],
-    ["SHORT FIELD: Brakes", "HOLD"],
-    ["SHORT FIELD: Throttle", "FULL OPEN, then release brakes", "Bravo lever 1"],
-    ["SHORT FIELD: Rotate / obstacle speed", "PER WEIGHT", null, "SPEEDS"]
-  ]},
-  { id: "climb", name: "Climb", items: [
-    ["Flaps", "RETRACT", "Bravo flap lever"],
-    ["Airspeed", "70-85 KIAS"],
-    ["Throttle", "FULL OPEN", "Bravo lever 1"],
-    ["Mixture", "ADJUST above 3000 ft", "Bravo lever 3"],
-    ["Trim", "SET", "Bravo trim wheel"],
-    ["Engine indicators", "CHECK"]
-  ]},
-  { id: "cruise", name: "Cruise", items: [
-    ["Power", "2100-2700 RPM", "Bravo lever 1"],
-    ["Mixture", "ADJUST", "Bravo lever 3"],
-    ["Trim", "SET", "Bravo trim wheel"],
-    ["Engine indicators", "CHECK"],
-    ["Vacuum", "CHECK"],
-    ["Voltmeters & ammeters", "CHECK"],
-    ["Fuel selector", "BOTH"],
-    ["Lights", "AS REQUIRED"]
-  ]},
-  { id: "descent", name: "Descent", items: [
-    ["ATIS (destination)", "COPY", null, "Write it on the Boox kneeboard"],
-    ["Altimeters (PFD & standby)", "SET"],
-    ["Altitude select", "SET", "Bravo selector ALT + knob"],
-    ["FMS / GPS approach", "REVIEW & BRIEF", null, "Approach plate from Navigraph"],
-    ["CDI softkey", "SELECT nav source"],
-    ["Fuel selector", "BOTH"],
-    ["Mixture", "ADJUST", "Bravo lever 3"],
-    ["Power", "AS REQUIRED", "Bravo lever 1"]
-  ]},
-  { id: "before-landing", name: "Before Landing", items: [
-    ["Seat backs", "MOST UPRIGHT"],
-    ["Seatbelts & harnesses", "SECURE"],
-    ["Fuel selector", "BOTH"],
-    ["Mixture", "RICH", "Bravo lever 3"],
-    ["Landing & taxi lights", "ON", "Alpha LAND, TAXI"],
-    ["Cabin power 12V", "OFF"],
-    ["Autopilot", "DISCONNECT", "Alpha red button"],
-    ["Flaps", "AS REQUIRED", "Bravo flap lever", "Downwind 85 KIAS, base 75, final 65 (short field 61 at max weight)"],
-    ["Radios", "SET"]
-  ]},
-  { id: "after-landing", name: "After Landing", note: "Clear of the runway.", items: [
-    ["Flaps", "RETRACT", "Bravo flap lever"],
-    ["Landing light", "OFF", "Alpha LAND"],
-    ["Strobe lights", "OFF", "Alpha STROBE"],
-    ["Taxi light", "ON", "Alpha TAXI"],
-    ["Pitot heat", "OFF", "Bravo toggle 2"],
-    ["Mixture", "ADJUST", "Bravo lever 3"],
-    ["Trim", "SET", "Bravo trim wheel"],
-    ["Transponder", "STANDBY when parked", "VATSIM"]
-  ]},
-  { id: "shutdown", name: "Shutdown", items: [
-    ["Parking brake", "SET", "Bravo toggle 6 UP"],
-    ["Taxi light", "OFF", "Alpha TAXI"],
-    ["Avionics Bus 1 & 2", "OFF", "Alpha AV BUS 1 & 2"],
-    ["Throttle", "IDLE", "Bravo lever 1"],
-    ["Magnetos", "CHECK (grounding)", "Alpha key"],
-    ["Throttle", "1000 RPM", "Bravo lever 1"],
-    ["Mixture", "IDLE CUTOFF", "Bravo lever 3"],
-    ["Magnetos", "OFF", "Alpha key"],
-    ["Master switch (ALT & BAT)", "OFF", "Alpha ALT + BAT"],
-    ["Standby battery", "OFF", "Bravo toggle 5 DOWN"],
-    ["Fuel selector", "RIGHT tank"],
-    ["Disconnect vPilot", "AFTER parked", "VATSIM"],
-    ["All hardware switches", "OFF before the next flight load", "Alpha + Bravo"]
-  ]}
+// To add a checklist: upload its .html file to the repo and add one line here.
+const CHECKLISTS = [
+  { file: "c172.html", name: "Cessna 172S G1000", desc: "Normal procedures, Before Start to Shutdown" },
+  { file: "sf50.html", name: "Cirrus SF50 Vision Jet", desc: "Normal procedures, Cockpit Setup to Shutdown" }
 ];
-
-const SPEEDS_HTML = '<table class="speeds"><tr><th>Weight (lb)</th><th>Rotate</th><th>Obstacle</th></tr>' +
-  '<tr><td>2550</td><td>51</td><td>56</td></tr><tr><td>2400</td><td>48</td><td>54</td></tr>' +
-  '<tr><td>2200</td><td>44</td><td>50</td></tr></table>';
-
-const KEY = "c172s-g1000-checklist-v1";
-let state = { phase: 0, checked: {} };
-try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && typeof s === "object") state = Object.assign(state, s); } catch (e) {}
-function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
-
-const tabsEl = document.getElementById("tabs");
-const mainEl = document.getElementById("main");
-const overallEl = document.getElementById("overall");
-let resetArmed = null, resetTimer = null;
-
-function key(p, i) { return PHASES[p].id + ":" + i; }
-function countDone(p) { return PHASES[p].items.filter((_, i) => state.checked[key(p, i)]).length; }
-
-function esc(s) { return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
-
-function renderTabs() {
-  tabsEl.innerHTML = "";
-  let total = 0, done = 0;
-  PHASES.forEach((ph, p) => {
-    const d = countDone(p), n = ph.items.length;
-    total += n; done += d;
-    const b = document.createElement("button");
-    b.className = "tab" + (p === state.phase ? " active" : "") + (d === n ? " complete" : "");
-    b.innerHTML = esc(ph.name) + '<span class="n">' + d + "/" + n + "</span>";
-    b.onclick = () => { state.phase = p; save(); render(); window.scrollTo(0, 0); };
-    tabsEl.appendChild(b);
-  });
-  overallEl.textContent = done + " of " + total + " items";
-  const active = tabsEl.children[state.phase];
-  if (active) active.scrollIntoView({ block: "nearest", inline: "center" });
-}
-
-function renderPhase() {
-  const p = state.phase, ph = PHASES[p];
-  const d = countDone(p), n = ph.items.length;
-  let html = '<div class="phasehead"><h2>' + esc(ph.name) + '</h2><span class="overall">' + d + " / " + n + "</span></div>";
-  if (ph.note) html += '<p class="phasenote">' + esc(ph.note) + "</p>";
-  html += '<div class="bar"><div style="width:' + (n ? (d / n * 100) : 0) + '%"></div></div><ul class="items">';
-  ph.items.forEach((it, i) => {
-    const [what, act, hw, sub] = it;
-    const on = !!state.checked[key(p, i)];
-    html += '<li class="item' + (on ? " checked" : "") + '" data-i="' + i + '" role="checkbox" aria-checked="' + on + '" tabindex="0">' +
-      '<div class="box"></div><div><div class="row"><span class="what">' + esc(what) + '</span><span class="dots"></span><span class="act">' + esc(act) + "</span></div>";
-    if (hw) html += '<span class="hw' + (hw === "VATSIM" ? " vatsim" : "") + '">' + esc(hw) + "</span>";
-    if (sub === "SPEEDS") html += SPEEDS_HTML;
-    else if (sub) html += '<div class="sub">' + esc(sub) + "</div>";
-    html += "</div></li>";
-  });
-  html += '</ul><div class="actions">';
-  if (p > 0) html += '<button class="btn" id="prev">Back</button>';
-  if (p < PHASES.length - 1) html += '<button class="btn primary" id="next">Next: ' + esc(PHASES[p + 1].name) + "</button>";
-  html += '<button class="btn danger" id="resetPhase">Reset this phase</button>';
-  html += '<button class="btn danger' + (resetArmed === "all" ? " armed" : "") + '" id="resetAll">' +
-    (resetArmed === "all" ? "Tap again to reset ALL" : "Reset all") + "</button></div>";
-  mainEl.innerHTML = html;
-
-  mainEl.querySelectorAll("li.item").forEach(li => {
-    const toggle = () => {
-      const k = key(p, +li.dataset.i);
-      if (state.checked[k]) delete state.checked[k]; else state.checked[k] = true;
-      save(); render();
-    };
-    li.onclick = toggle;
-    li.onkeydown = e => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); toggle(); } };
-  });
-  const prev = document.getElementById("prev");
-  if (prev) prev.onclick = () => { state.phase--; save(); render(); window.scrollTo(0, 0); };
-  const next = document.getElementById("next");
-  if (next) next.onclick = () => { state.phase++; save(); render(); window.scrollTo(0, 0); };
-  document.getElementById("resetPhase").onclick = () => {
-    ph.items.forEach((_, i) => delete state.checked[key(p, i)]);
-    save(); render();
-  };
-  document.getElementById("resetAll").onclick = () => {
-    if (resetArmed === "all") {
-      clearTimeout(resetTimer); resetArmed = null;
-      state = { phase: 0, checked: {} }; save(); render(); window.scrollTo(0, 0);
-    } else {
-      resetArmed = "all"; render();
-      clearTimeout(resetTimer);
-      resetTimer = setTimeout(() => { resetArmed = null; render(); }, 3000);
-    }
-  };
-}
-
-function render() {
-  if (state.phase < 0 || state.phase >= PHASES.length) state.phase = 0;
-  renderTabs(); renderPhase();
-}
-render();
+document.getElementById("list").innerHTML = CHECKLISTS.map(c =>
+  '<a class="card" href="' + c.file + '"><div><div class="name">' + c.name +
+  '</div><div class="desc">' + c.desc + '</div></div><span class="arrow">&rsaquo;</span></a>').join("");
 </script>
 </body>
 </html>
